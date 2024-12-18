@@ -1,0 +1,12 @@
+# Ignore environment files
+.env
+
+# Ignore product_data.json
+product_data.json
+
+
+
+*.pyc
+__pycache__/
+.vscode/
+.idea/
