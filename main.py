@@ -71,6 +71,7 @@ def show_category_menu():
     print("1. Facebook")
     print("2. TikTok")
     print("3. Instagram")
+ื    print("4. Discord")
     print("0. ออกจากโปรแกรม 🚪")
     print("\n-------------------------\n")  # เส้นแบ่งระหว่างเมนู
 
@@ -190,6 +191,9 @@ while True:
             choose_product(filtered_products)
         elif category_choice == 3:
             filtered_products = product_data.get("instagram", {})
+            choose_product(filtered_products)
+        elif category_choice == 4:
+            filtered_products = product_data.get("discord", {})  # เพิ่ม Discord
             choose_product(filtered_products)
         else:
             print("ตัวเลือกไม่ถูกต้อง ❌ กรุณาเลือกใหม่")
