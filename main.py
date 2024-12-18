@@ -14,14 +14,11 @@ ENV_USERNAME = os.getenv("USERNAME")  # เพิ่มค่าชื่อผ�
 ENV_PASSWORD = os.getenv("PASSWORD")  # เพิ่มค่ารหัสผ่านจาก .env
 
 # แปลงข้อมูล JSON จาก string เป็น dictionary
-# product_data = json.loads(PRODUCT_DATA_JSON)
-
 if not PRODUCT_DATA_JSON:
     print("ไม่มีข้อมูล PRODUCT_DATA ใน .env ❌")
     exit()
 
 try:
-    # แปลงข้อมูล JSON จาก string เป็น dictionary
     product_data = json.loads(PRODUCT_DATA_JSON)
 except json.JSONDecodeError:
     print("ไม่สามารถแปลงข้อมูล PRODUCT_DATA จาก .env ได้ ❌")
@@ -34,7 +31,7 @@ password = input("กรุณากรอก Password: ")
 # ตรวจสอบ username และ password ว่าตรงกับค่าจาก .env หรือไม่
 if username != ENV_USERNAME or password != ENV_PASSWORD:
     print("ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง ❌")
-    exit()  # ออกจากโปรแกรมถ้าข้อมูลไม่ตรง
+    exit()
 else:
     print("ยินดีต้อนรับ! ข้อมูลผู้ใช้ถูกต้อง ✅")
 
@@ -104,7 +101,6 @@ def choose_product(filtered_products):
         service = product['service']
         description = product['description']
         action = product['action']
-        comments_prompt = product.get('comments', None)
 
         print(f"\nคุณเลือกสินค้า: {description} 🛒")
         print(f"ราคาต่อหน่วย: {price_per_unit} บาท 💰")
@@ -121,11 +117,6 @@ def choose_product(filtered_products):
             return
 
         quantity = int(quantity)
-
-        if comments_prompt:
-            comments = input(f"{comments_prompt} (พิมพ์ 00 เพื่อกลับสู่เมนูหลัก): ")
-            if comments == "00":
-                return
 
         # ตรวจสอบจำนวนที่ผู้ใช้กรอกว่าผ่านข้อกำหนดขั้นต่ำและสูงสุดหรือไม่
         if quantity < min_quantity or quantity > max_quantity:
@@ -162,9 +153,6 @@ def choose_product(filtered_products):
                     "quantity": quantity
                 }
 
-                if comments:
-                    data_order["comments"] = comments
-
                 response_order = requests.post(url_order, data=data_order)
 
                 if response_order.status_code == 200:
@@ -193,10 +181,10 @@ while True:
             print("ออกจากโปรแกรม 👋")
             break
         elif category_choice == 1:
-            filtered_products = {k: v for k, v in product_data.items() if not v.get('comments')}
+            filtered_products = {k: v for k, v in product_data.items()}
             choose_product(filtered_products)
         elif category_choice == 2:
-            filtered_products = {k: v for k, v in product_data.items() if v.get('comments')}
+            filtered_products = {k: v for k, v in product_data.items()}
             choose_product(filtered_products)
         else:
             print("ตัวเลือกไม่ถูกต้อง ❌ กรุณาเลือกใหม่")
