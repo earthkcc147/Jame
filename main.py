@@ -57,7 +57,7 @@ def get_balance():
 
     return None
 
-# เมนูหลัก - แสดงประเภทสินค้า
+# เมนูแสดงประเภทสินค้า (Facebook, Tiktok, Instagram)
 def show_category_menu():
     # ดึงยอดเงินจาก API
     balance = get_balance()
@@ -67,12 +67,14 @@ def show_category_menu():
         print(f"\n--- เมนูหลัก --- {' ' * (30 - len(str(balance)))} ยอดเงิน: {balance} บาท 💳")
     else:
         print("\n--- เมนูหลัก --- ไม่สามารถดึงยอดเงินได้ ❗")
-    print("1. สินค้าประเภท Like 👍")
-    print("2. สินค้าประเภท Comment 💬")
+    
+    print("1. Facebook")
+    print("2. TikTok")
+    print("3. Instagram")
     print("0. ออกจากโปรแกรม 🚪")
     print("\n-------------------------\n")  # เส้นแบ่งระหว่างเมนู
 
-# เมนูแสดงข้อมูลสินค้า
+# เมนูแสดงข้อมูลสินค้าตามหมวดหมู่
 def show_main_menu(filtered_products):
     print("\n--- รายการสินค้า ---")
     for index, (product_name, details) in enumerate(filtered_products.items(), start=1):
@@ -181,10 +183,13 @@ while True:
             print("ออกจากโปรแกรม 👋")
             break
         elif category_choice == 1:
-            filtered_products = {k: v for k, v in product_data.items()}
+            filtered_products = product_data.get("facebook", {})
             choose_product(filtered_products)
         elif category_choice == 2:
-            filtered_products = {k: v for k, v in product_data.items()}
+            filtered_products = product_data.get("tiktok", {})
+            choose_product(filtered_products)
+        elif category_choice == 3:
+            filtered_products = product_data.get("instagram", {})
             choose_product(filtered_products)
         else:
             print("ตัวเลือกไม่ถูกต้อง ❌ กรุณาเลือกใหม่")
